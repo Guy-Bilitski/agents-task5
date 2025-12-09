@@ -36,3 +36,4 @@ logging:
 
 output:
   results_dir: "task3_experiment/results"
+  save_details: true

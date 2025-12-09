@@ -93,4 +93,7 @@ For long-horizon agentic tasks, context history grows indefinitely. We tested th
 All three strategies proved effective for simple fact retrieval. 
 -   **Select** is best for minimizing tokens.
 -   **Write** is best for maintaining structured state (Inventory/Quests).
--   **Compress** is best for narrative coherence but risks lossy details.
+## 3. Final Presentation
+For a detailed guide on how to present these results, including slide outlines and narrative strategy, please refer to [PRESENTATION_PLAN.md](PRESENTATION_PLAN.md).
+
+Use the provided script `presentation/visualize_results.py` to generate the recommended charts.
