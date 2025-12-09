@@ -1,0 +1,21 @@
+# Experiment Configuration
+seed: 42
+num_docs: 5
+doc_length: 200
+
+# Model
+model_url: "http://localhost:11434/api/generate"
+model_name: "llama3.2:1b"
+temperature: 0.1
+max_tokens: 50
+
+# Test data
+critical_fact: "Uncle Cohen is the CEO of the company."
+query: "Who is the CEO of the company?"
+expected_answer: "Uncle Cohen"
+
+# Positions (% of document)
+positions:
+  start: 0.05
+  middle: 0.50
+  end: 0.95
