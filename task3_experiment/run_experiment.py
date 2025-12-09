@@ -4,7 +4,7 @@ import sys
 import json
 import time
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, TYPE_CHECKING
 
 # Add root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))

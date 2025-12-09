@@ -2,6 +2,7 @@
 
 import time
 import random
+import requests
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 
@@ -92,3 +93,76 @@ class MockLLM(BaseLLM):
             "token_count": token_count,
             "is_accurate": is_accurate
         }
+
+
+class OllamaLLM(BaseLLM):
+    """
+    Real Ollama LLM implementation using llama3.2:1b.
+    """
+    
+    def __init__(
+        self,
+        model_name: str = "llama3.2:1b",
+        base_url: str = "http://localhost:11434",
+        temperature: float = 0.0,
+        max_tokens: int = 100,
+        timeout: int = 120
+    ):
+        self.model_name = model_name
+        self.base_url = base_url
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.timeout = timeout
+    
+    def query(self, context: str, question: str, **kwargs) -> Dict[str, Any]:
+        """Query Ollama with real LLM."""
+        start_time = time.time()
+        
+        # Build prompt
+        prompt = f"Context: {context}\n\nQuestion: {question}\n\nAnswer briefly:"
+        
+        try:
+            response = requests.post(
+                f"{self.base_url}/api/generate",
+                json={
+                    "model": self.model_name,
+                    "prompt": prompt,
+                    "stream": False,
+                    "options": {
+                        "temperature": self.temperature,
+                        "num_predict": self.max_tokens
+                    }
+                },
+                timeout=self.timeout
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            llm_response = result.get('response', '').strip()
+            
+            # Calculate latency
+            latency = time.time() - start_time
+            
+            # Token count (approximate)
+            token_count = len(context.split())
+            
+            # Check accuracy if expected answer provided
+            expected = kwargs.get('expected_answer', kwargs.get('needle_fact', ''))
+            is_accurate = False
+            if expected:
+                is_accurate = expected.lower() in llm_response.lower()
+            
+            return {
+                "response": llm_response,
+                "latency": latency,
+                "token_count": token_count,
+                "is_accurate": is_accurate
+            }
+            
+        except Exception as e:
+            return {
+                "response": f"Error: {str(e)}",
+                "latency": time.time() - start_time,
+                "token_count": len(context.split()),
+                "is_accurate": False
+            }

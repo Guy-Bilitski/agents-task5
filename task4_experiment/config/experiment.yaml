@@ -8,7 +8,7 @@ simulation:
   num_actions: 10
   query: "What color was the key?"
   target_answer: "Blue"
-  max_tokens_limit: 100 # Tight limit to force compression/selection
+  max_tokens_limit: 30 # Tight limit to force compression/selection
 
 strategies:
   select:

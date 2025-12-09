@@ -13,7 +13,14 @@ def load_config(path="config.yaml"):
 
 def query_llm(text, question, config):
     """Query LLM via Ollama API."""
-    prompt = f"Context: {text}\n\nQuestion: {question}\n\nAnswer briefly:"
+    prompt = f"""You are a helpful assistant. Answer the question using ONLY the provided Context. If the answer is in the context, output it directly.
+
+Context:
+{text}
+
+Question: {question}
+
+Answer:"""
     
     response = requests.post(
         config['model_url'],

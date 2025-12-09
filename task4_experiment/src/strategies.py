@@ -1,9 +1,10 @@
 """Task 4: Strategies Implementation."""
 
 from typing import List, Dict, Any
+import string
 
 class ContextStrategies:
-    
+
     @staticmethod
     def select_strategy(history: List[str], query: str, top_k: int = 2) -> str:
         """
@@ -11,7 +12,8 @@ class ContextStrategies:
         Retrieves top_k most relevant lines based on keyword matching.
         """
         # Simple keyword matching simulation of RAG
-        query_words = set(query.lower().split())
+        # Strip punctuation from query words for proper matching
+        query_words = set(word.strip(string.punctuation).lower() for word in query.split())
         scored_lines = []
         
         for line in history:
