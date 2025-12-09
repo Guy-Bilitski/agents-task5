@@ -1,0 +1,28 @@
+experiment:
+  name: "Context Strategy Benchmarking"
+  description: "Evaluate different Context Management Strategies (Select, Compress, Write) for Long-Horizon Tasks."
+  version: "1.0.0"
+  seed: 42
+
+simulation:
+  num_actions: 10
+  query: "What color was the key?"
+  target_answer: "Blue"
+  max_tokens_limit: 100 # Tight limit to force compression/selection
+
+strategies:
+  select:
+    top_k: 2
+  compress:
+    summary_ratio: 0.3
+  write:
+    scratchpad_keys: ["inventory", "npcs", "knowledge"]
+
+logging:
+  level: "INFO"
+  console: true
+  file: true
+  log_dir: "task4_experiment/logs"
+
+output:
+  results_dir: "task4_experiment/results"

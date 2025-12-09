@@ -1,0 +1,27 @@
+experiment:
+  name: "Context Window Impact Analysis"
+  description: "Evaluate the relationship between Context Window Size and model performance (Latency/Accuracy)."
+  version: "1.0.0"
+  seed: 42
+
+dataset:
+  doc_counts: [2, 5, 10, 20, 50]
+  words_per_doc: 200
+  query: "What is the secret code?"
+  needle: "The secret code is BLUE-42."
+
+model:
+  latency_base: 0.1
+  latency_per_token: 0.0002
+  noise_threshold: 4000 # ~20 docs * 200 words
+  noise_prob_low: 0.0
+  noise_prob_high: 0.6 # High chance of failure when overloaded
+
+logging:
+  level: "INFO"
+  console: true
+  file: true
+  log_dir: "task2_experiment/logs"
+
+output:
+  results_dir: "task2_experiment/results"

@@ -1,0 +1,38 @@
+experiment:
+  name: "RAG vs Full Context Analysis"
+  description: "Comparative analysis of RAG (Retrieval Augmented Generation) versus Full Context (Brute Force) information retrieval strategies."
+  version: "1.0.0"
+  seed: 42
+
+dataset:
+  total_docs: 20
+  doc_length_words: 500  # Approx 500 tokens/words per doc
+  target_domain: "medicine"
+  distractor_domains: ["law", "technology"]
+  needle:
+    query: "What are the side effects of Drug X?"
+    fact: "Drug X causes mild dizziness and dry mouth."
+    doc_index: 0 # Which document gets the needle (randomized later if needed, but fixed for reproducibility)
+
+rag:
+  chunk_size: 500 # tokens/chars
+  chunk_overlap: 50
+  top_k: 3
+  embedding_type: "tfidf" # or "mock"
+
+simulation:
+  full_context_latency_base: 0.1 # Base latency
+  full_context_latency_per_word: 0.0005 # Latency penalty per word in context
+  full_context_noise_prob: 0.4 # Probability of "Lost in the Middle" / Hallucination in full context
+  rag_latency_retrieval: 0.2 # Fixed cost for retrieval
+  rag_latency_generation: 0.5 # Fast generation on small context
+  rag_noise_prob: 0.05 # Low probability of error in RAG
+
+logging:
+  level: "INFO"
+  console: true
+  file: true
+  log_dir: "task3_experiment/logs"
+
+output:
+  results_dir: "task3_experiment/results"
