@@ -1,0 +1,9 @@
+# Core dependencies (all experiments)
+pyyaml
+requests
+
+# Task 3 specific (RAG)
+faiss-cpu
+sentence-transformers
+numpy
+torch

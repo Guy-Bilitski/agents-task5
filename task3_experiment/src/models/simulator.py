@@ -41,7 +41,7 @@ class MockLLM(BaseLLM): # Inherit from BaseLLM
         Returns:
             Dict with 'response', 'latency', 'is_accurate'
         """
-        start_time = time.time()
+        start_time = time.perf_counter()
         
         # Analyze Context
         context_words = len(context.split())
@@ -57,7 +57,7 @@ class MockLLM(BaseLLM): # Inherit from BaseLLM
             process_time = self.latency_base + (context_words * self.latency_per_word)
             # Add some randomness
             process_time *= random.uniform(0.9, 1.1)
-            time.sleep(min(process_time, 2.0)) # Cap at 2s for runtime sanity during dev, but record full time
+            time.sleep(process_time) 
             
             # Simulate "Lost in the Middle"
             # If needle is present, chance to miss it due to noise
@@ -91,7 +91,7 @@ class MockLLM(BaseLLM): # Inherit from BaseLLM
             response = "The documents discuss various topics including law and technology, but I cannot find specific details about Drug X side effects."
             is_accurate = False
             
-        total_latency = time.time() - start_time
+        total_latency = time.perf_counter() - start_time
         # Use calculated process_time for consistency if sleep was capped, 
         # or just use real elapsed time. Let's use real elapsed.
         

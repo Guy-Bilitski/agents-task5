@@ -37,5 +37,5 @@ pip install -r requirements.txt
 
 ## Running
 ```bash
-python3 run_experiment.py
+python3 src/run_experiment.py
 ```

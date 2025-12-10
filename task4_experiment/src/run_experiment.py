@@ -86,8 +86,12 @@ def run_experiment():
     logger.info(f"SELECT:   {'PASS' if pass_select else 'FAIL'}")
     logger.info(f"COMPRESS: {'PASS' if pass_compress else 'FAIL'}")
     logger.info(f"WRITE:    {'PASS' if pass_write else 'FAIL'}")
-    
-    save_json_results(results, Path(config['output']['results_dir']))
+
+    try:
+        output_file = save_json_results(results, Path(config['output']['results_dir']))
+        logger.info(f"\nResults saved to: {output_file}")
+    except Exception as e:
+        logger.error(f"Failed to save results: {e}")
 
 if __name__ == "__main__":
     run_experiment()

@@ -1,0 +1,40 @@
+experiment:
+  name: "Lost in the Middle"
+  description: "Test if LLMs retrieve facts better from start/end vs middle of context"
+  version: "1.0.0"
+  seed: 42
+
+model:
+  url: "http://localhost:11434/api/generate"
+  name: "llama3.2:1b"
+  temperature: 0.1
+  max_tokens: 50
+
+dataset:
+  doc_length: 500  # words per document
+  critical_fact: "The special code is ALPHA-7."
+  query: "What is the special code?"
+  expected_answer: "ALPHA-7"
+
+  # Test positions (% of document)
+  positions:
+    start: 0.00   # Very start
+    middle: 0.50  # Middle
+    end: 1.00     # Very end
+
+  # Test cases (position_name, position_pct)
+  test_cases:
+    - ["start", 0.00]
+    - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["end", 1.00]
+
+logging:
+  level: "INFO"
+  console: true
+  file: true
+  log_dir: "logs"
+
+output:
+  results_dir: "results"

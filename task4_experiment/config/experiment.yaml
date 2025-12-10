@@ -22,7 +22,7 @@ logging:
   level: "INFO"
   console: true
   file: true
-  log_dir: "task4_experiment/logs"
+  log_dir: "logs"
 
 output:
-  results_dir: "task4_experiment/results"
+  results_dir: "results"

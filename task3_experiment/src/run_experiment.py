@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Dict, Any, List, TYPE_CHECKING
 
 # Add root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from common import setup_logger, set_seed, save_json_results
 from task3_experiment.src.config import load_config, Config
@@ -40,23 +40,23 @@ def run_mode_b_rag(config: Config, documents: List[Any], llm: MockLLM, logger) -
     
     # 1. Indexing
     logger.info("Indexing documents...")
-    start_index = time.time()
+    start_index = time.perf_counter()
     vector_store = VectorStore(
         chunk_size=config.rag.chunk_size,
         overlap=config.rag.chunk_overlap
     )
     vector_store.add_documents(documents)
-    index_time = time.time() - start_index
+    index_time = time.perf_counter() - start_index
     logger.info(f"Indexing complete in {index_time:.4f}s. Total chunks: {vector_store.total_chunks}")
     
     # 2. Retrieval
     logger.info(f"Retrieving Top-{config.rag.top_k} chunks...")
-    retrieval_start = time.time()
+    retrieval_start = time.perf_counter()
     relevant_chunks = vector_store.similarity_search(
         query=config.dataset.needle.query,
         k=config.rag.top_k
     )
-    retrieval_time = time.time() - retrieval_start
+    retrieval_time = time.perf_counter() - retrieval_start
     
     # Log retrieved chunks
     for i, chunk in enumerate(relevant_chunks):
