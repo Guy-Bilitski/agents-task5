@@ -1,11 +1,11 @@
 # Experiment Results Visualization
 
-This directory contains professional visualizations of all 4 experiments.
+This directory contains clear, professional visualizations of all 4 experiments in text format.
 
 ## 📊 Visualizations
 
 ### Task 1: Lost in the Middle
-![Task 1 - Accuracy by Position](task1_accuracy.png)
+[View Results: task1_results.txt](task1_results.txt)
 
 **Key Findings:**
 - Start position: High accuracy
@@ -16,7 +16,7 @@ This directory contains professional visualizations of all 4 experiments.
 ---
 
 ### Task 2: Context Window Size Impact
-![Task 2 - Latency and Accuracy](task2_impact.png)
+[View Results: task2_results.txt](task2_results.txt)
 
 **Key Findings:**
 - Latency increases linearly with document count
@@ -27,7 +27,7 @@ This directory contains professional visualizations of all 4 experiments.
 ---
 
 ### Task 3: RAG vs Full Context
-![Task 3 - Comparison](task3_comparison.png)
+[View Results: task3_results.txt](task3_results.txt)
 
 **Key Findings:**
 - RAG latency: 0.74s vs Full Context: 5.21s (85.8% faster)
@@ -96,10 +96,11 @@ All experiments follow rigorous scientific methodology:
 
 ## 📁 Files
 
-- `task1_accuracy.png` - Bar chart showing accuracy by position
-- `task2_impact.png` - Dual-axis plot of latency and accuracy vs. documents
-- `task3_comparison.png` - Comparison bars of Full Context vs RAG
-- `generate_visualizations.py` - Automated visualization generator
+- `task1_results.txt` - Task 1 results table with accuracy by position
+- `task2_results.txt` - Task 2 results showing latency/accuracy vs. documents
+- `task3_results.txt` - Task 3 comparison of Full Context vs RAG
+- `task4_results.txt` - Task 4 strategy comparison results
+- `create_visualizations.sh` - Script to regenerate visualization files
 - `README.md` - This file
 
 ---
