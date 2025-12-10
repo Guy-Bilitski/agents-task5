@@ -1,13 +1,20 @@
-╔════════════════════════════════════════════════════════════════╗
-║          TASK 3: RAG VS FULL CONTEXT - RESULTS                 ║
-╚════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════╗
+║                TASK 3: RAG vs FULL CONTEXT                 ║
+╚════════════════════════════════════════════════════════════╝
 
-Metric          | Full Context | RAG          | Improvement
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Avg Latency     |    5.21s     |   0.74s      | 85.8% faster ↓
-Accuracy        |      40%     |     80%      | 2x better ↑
-Context Size    |   ~30,000w   |  ~1,500w     | 95% smaller ↓
+Hypothesis: RAG is faster and more accurate than Full Context.
 
-CONCLUSION: ✅ HYPOTHESIS CONFIRMED
-RAG demonstrates superior efficiency and accuracy by filtering noise
-and retrieving only relevant information.
+Metric               | Mode A (Full)   | Mode B (RAG)    | Improvement    
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Avg Latency          | 5.1956          | 0.7684          | +85.2% (Faster)
+Accuracy             | 40.0           % | 80.0           % | +40.0% (Points)
+
+Visual Comparison:
+Latency A: ██████████████████████████████ 5.20s
+Latency B: ████░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.77s
+
+Accuracy A: ████████████░░░░░░░░░░░░░░░░░░ 40.0%
+Accuracy B: ████████████████████████░░░░░░ 80.0%
+
+Analysis:
+✅ CONCLUSION: RAG outperforms Full Context in both Latency and Accuracy.

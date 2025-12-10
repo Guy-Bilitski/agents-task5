@@ -11,7 +11,7 @@ model:
   max_tokens: 50
 
 dataset:
-  doc_length: 500  # words per document
+  doc_length: 1800  # words per document (Calibrated for 1B model)
   critical_fact: "The special code is ALPHA-7."
   query: "What is the special code?"
   expected_answer: "ALPHA-7"
@@ -25,9 +25,25 @@ dataset:
   # Test cases (position_name, position_pct)
   test_cases:
     - ["start", 0.00]
+    - ["start", 0.00]
+    - ["start", 0.00]
+    - ["start", 0.00]
+    - ["start", 0.00]
+    - ["start", 0.00]
+    - ["start", 0.00]
     - ["middle", 0.50]
     - ["middle", 0.50]
     - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["middle", 0.50]
+    - ["end", 1.00]
+    - ["end", 1.00]
+    - ["end", 1.00]
+    - ["end", 1.00]
+    - ["end", 1.00]
+    - ["end", 1.00]
     - ["end", 1.00]
 
 logging:

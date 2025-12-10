@@ -8,7 +8,7 @@ from typing import Dict, Any, List
 # Add root to path to allow importing common
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from common import setup_logger, set_seed, load_yaml_config, save_json_results, MockLLM, generate_text_block, insert_needle
+from common import setup_logger, set_seed, load_yaml_config, save_json_results, OllamaLLM, generate_text_block, insert_needle
 
 def run_experiment():
     # Load Config
@@ -30,12 +30,12 @@ def run_experiment():
     logger.info(f"Testing Doc Counts: {config['dataset']['doc_counts']}")
     
     # Initialize Model
-    model = MockLLM(
-        latency_base=config['model']['latency_base'],
-        latency_per_token=config['model']['latency_per_token'],
-        noise_threshold=config['model']['noise_threshold'],
-        noise_prob_low=config['model']['noise_prob_low'],
-        noise_prob_high=config['model']['noise_prob_high']
+    model = OllamaLLM(
+        model_name=config['model']['name'],
+        base_url=config['model']['url'],
+        temperature=config['model']['temperature'],
+        max_tokens=config['model']['max_tokens'],
+        timeout=config['model']['timeout']
     )
     
     results = []
@@ -50,7 +50,7 @@ def run_experiment():
             full_text += generate_text_block(domain="generic", min_words=config['dataset']['words_per_doc']) + "\n\n"
             
         # Insert Needle randomly
-        full_text = insert_needle(full_text, config['dataset']['needle'], position="random")
+        full_text = insert_needle(full_text, f"The secret code is {config['dataset']['needle']}.", position="random")
         
         # 2. Query Model
         logger.info(f"Context Length: ~{len(full_text.split())} words")

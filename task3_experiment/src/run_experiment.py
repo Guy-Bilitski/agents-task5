@@ -9,14 +9,13 @@ from typing import Dict, Any, List, TYPE_CHECKING
 # Add root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from common import setup_logger, set_seed, save_json_results
+from common import setup_logger, set_seed, save_json_results, OllamaLLM
 from task3_experiment.src.config import load_config, Config
 from task3_experiment.src.data.generator import generate_dataset
 from task3_experiment.src.rag.indexer import VectorStore
-from task3_experiment.src.models.simulator import MockLLM
 from task3_experiment.src.evaluation.metrics import calculate_statistics
 
-def run_mode_a_full_context(config: Config, documents: List[Any], llm: MockLLM, logger) -> Dict[str, Any]:
+def run_mode_a_full_context(config: Config, documents: List[Any], llm: OllamaLLM, logger) -> Dict[str, Any]:
     """Execute Mode A: Full Context."""
     logger.info("--- [Mode A] Starting Full Context Execution ---")
     
@@ -28,13 +27,13 @@ def run_mode_a_full_context(config: Config, documents: List[Any], llm: MockLLM, 
     result = llm.query(
         context=full_context, 
         question=config.dataset.needle.query,
-        needle_fact=config.dataset.needle.fact
+        expected_answer=config.dataset.needle.fact
     )
     
     logger.info(f"Mode A Result: Latency={result['latency']:.4f}s | Accurate={result['is_accurate']}")
     return result
 
-def run_mode_b_rag(config: Config, documents: List[Any], llm: MockLLM, logger) -> Dict[str, Any]:
+def run_mode_b_rag(config: Config, documents: List[Any], llm: OllamaLLM, logger) -> Dict[str, Any]:
     """Execute Mode B: RAG."""
     logger.info("--- [Mode B] Starting RAG Execution ---")
     
@@ -68,23 +67,19 @@ def run_mode_b_rag(config: Config, documents: List[Any], llm: MockLLM, logger) -
     rag_context = "\n\n".join([c.text for c in relevant_chunks])
     
     # 4. Generation
-    # We pass the RAG context to the LLM
-    # Note: We add retrieval_time to the total latency in the result manually 
-    # or consider it part of the system latency. 
-    # The MockLLM simulates generation latency. We should add retrieval time.
-    
     result = llm.query(
         context=rag_context,
         question=config.dataset.needle.query,
-        needle_fact=config.dataset.needle.fact
+        expected_answer=config.dataset.needle.fact
     )
     
     # Add retrieval overhead to latency
     total_rag_latency = retrieval_time + result['latency']
     result['latency'] = total_rag_latency
     result['retrieval_time'] = retrieval_time
+    result['generation_time'] = result['latency'] - retrieval_time
     
-    logger.info(f"Mode B Result: Latency={result['latency']:.4f}s | Accurate={result['is_accurate']}")
+    logger.info(f"Mode B Result: Total Latency={result['latency']:.4f}s (Retrieval={retrieval_time:.4f}s) | Accurate={result['is_accurate']}")
     return result
 
 def main():
@@ -102,17 +97,16 @@ def main():
     
     logger.info(f"Initialized Experiment: {config.experiment.name}")
     
-    # Initialize Simulator
-    # Need to pass individual simulation params
-    sim_config = config.simulation
-    llm = MockLLM(
-        full_context_latency_base=sim_config.full_context_latency_base,
-        full_context_latency_per_word=sim_config.full_context_latency_per_word,
-        full_context_noise_prob=sim_config.full_context_noise_prob,
-        rag_latency_retrieval=sim_config.rag_latency_retrieval,
-        rag_latency_generation=sim_config.rag_latency_generation,
-        rag_noise_prob=sim_config.rag_noise_prob
+    # Initialize Real LLM
+    llm = OllamaLLM(
+        model_name=config.model.name,
+        base_url=config.model.url,
+        temperature=config.model.temperature,
+        max_tokens=config.model.max_tokens,
+        timeout=config.model.timeout
     )
+    
+    logger.info(f"Using model: {config.model.name} at {config.model.url}")
     
     # Storage for results
     results_a = []

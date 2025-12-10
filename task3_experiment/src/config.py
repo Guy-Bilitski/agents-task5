@@ -34,13 +34,12 @@ class RAGConfig:
     embedding_type: str
 
 @dataclass
-class SimulationConfig:
-    full_context_latency_base: float
-    full_context_latency_per_word: float
-    full_context_noise_prob: float
-    rag_latency_retrieval: float
-    rag_latency_generation: float
-    rag_noise_prob: float
+class ModelConfig:
+    url: str
+    name: str
+    temperature: float
+    max_tokens: int
+    timeout: int
 
 @dataclass
 class LoggingConfig:
@@ -59,7 +58,7 @@ class Config:
     experiment: ExperimentConfig
     dataset: DatasetConfig
     rag: RAGConfig
-    simulation: SimulationConfig
+    model: ModelConfig
     logging: LoggingConfig
     output: OutputConfig
 
@@ -80,7 +79,7 @@ def load_config(config_path: Optional[Path] = None) -> Config:
             **{k: v for k, v in config_dict['dataset'].items() if k != 'needle'}
         ),
         rag=RAGConfig(**config_dict['rag']),
-        simulation=SimulationConfig(**config_dict['simulation']),
+        model=ModelConfig(**config_dict['model']),
         logging=LoggingConfig(**config_dict['logging']),
         output=OutputConfig(**config_dict['output'])
     )

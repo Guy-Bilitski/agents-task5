@@ -1,16 +1,14 @@
-╔════════════════════════════════════════════════════════════════╗
-║      TASK 4: CONTEXT MANAGEMENT STRATEGIES - RESULTS           ║
-╚════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════╗
+║                 TASK 4: CONTEXT STRATEGIES                 ║
+╚════════════════════════════════════════════════════════════╝
 
-Query: "What color was the key?"
-Expected Answer: "Blue"
+Hypothesis: Structured/Selected memory > Compression.
 
-Strategy        | Method              | Result | Reason
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SELECT (RAG)    | Keyword retrieval   | ✅ PASS | Found "Blue Key"
-COMPRESS        | Summarization       | ❌ FAIL | Lost color detail
-WRITE           | Structured memory   | ✅ PASS | Preserved in inventory
+Strategy        | Result     | Details
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SELECT          | ✅ PASS     | Found a Blue Key under the mat. Unlocked...
+COMPRESS        | ❌ FAIL     | Summary: User explored a dungeon, found ...
+WRITE           | ✅ PASS     | {'inventory': ['Blue Key'], 'npcs': ['St...
 
-CONCLUSION: ✅ HYPOTHESIS CONFIRMED
-Structured external memory (WRITE) and selective retrieval (SELECT)
-preserve critical facts better than compression.
+Analysis:
+✅ CONCLUSION: Hypothesis Confirmed. Compression lost detail.

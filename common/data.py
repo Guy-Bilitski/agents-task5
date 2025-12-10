@@ -45,12 +45,15 @@ def generate_text_block(domain: str = "generic", min_words: int = 100) -> str:
     
     return " ".join(words[:min_words])
 
-def insert_needle(text: str, needle: str, position: str = "random") -> str:
+def insert_needle(text: str, needle: str, position: str | float = "random") -> str:
     """Insert a needle (fact) into text at a rough position."""
     words = text.split()
     total = len(words)
     
-    if position == "start":
+    if isinstance(position, float):
+        idx = int(total * position)
+        idx = max(0, min(idx, total)) # Clamp to bounds
+    elif position == "start":
         idx = int(total * 0.1)
     elif position == "end":
         idx = int(total * 0.9)

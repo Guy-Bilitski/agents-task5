@@ -5,17 +5,17 @@ experiment:
   seed: 42
 
 dataset:
-  doc_counts: [2, 5, 10, 20, 50]
-  words_per_doc: 200
+  doc_counts: [2, 5, 10, 20, 30] # Reduced max from 50 to 30 to save time
+  words_per_doc: 300
   query: "What is the secret code?"
-  needle: "The secret code is BLUE-42."
+  needle: "BLUE-42"
 
 model:
-  latency_base: 0.1
-  latency_per_token: 0.0002
-  noise_threshold: 4000 # ~20 docs * 200 words
-  noise_prob_low: 0.0
-  noise_prob_high: 0.6 # High chance of failure when overloaded
+  url: "http://localhost:11434"
+  name: "llama3.2:1b"
+  temperature: 0.1
+  max_tokens: 50
+  timeout: 120
 
 logging:
   level: "INFO"

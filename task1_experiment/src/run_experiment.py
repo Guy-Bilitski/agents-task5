@@ -5,7 +5,7 @@ import requests
 from pathlib import Path
 
 # Add root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from common import setup_logger, set_seed, load_yaml_config, save_json_results, generate_text_block, insert_needle
 
@@ -48,7 +48,7 @@ def evaluate(response: str, expected: str) -> int:
 def run_experiment():
     """Run the Lost in the Middle experiment."""
     # Load configuration
-    config_path = Path(__file__).parent / "config" / "experiment.yaml"
+    config_path = Path(__file__).parent.parent / "config" / "experiment.yaml"
     config = load_yaml_config(config_path)
 
     # Setup logging

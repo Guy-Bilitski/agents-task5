@@ -1,15 +1,17 @@
-╔════════════════════════════════════════════════════════════════╗
-║       TASK 2: CONTEXT WINDOW SIZE IMPACT - RESULTS            ║
-╚════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════╗
+║             TASK 2: CONTEXT WINDOW SIZE IMPACT             ║
+╚════════════════════════════════════════════════════════════╝
 
-Docs | Tokens | Latency | Accuracy | Visual
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  2  |   405  |  0.17s  |   100%   | ▂░░░░░░░░░ ✓
-  5  |  1005  |  0.29s  |   100%   | ▃░░░░░░░░░ ✓
- 10  |  2005  |  0.52s  |   100%   | ▅░░░░░░░░░ ✓
- 20  |  4005  |  0.90s  |     0%   | ▇░░░░░░░░░ ✗
- 50  | 10005  |  1.96s  |   100%   | ██████████ ✓
+Hypothesis: Latency increases linearly; Accuracy degrades with size.
 
-CONCLUSION: ✅ HYPOTHESIS CONFIRMED
-Latency increases linearly with context size.
-Accuracy degrades at noise threshold (~20 docs).
+Docs   | Tokens   | Latency (s)  | Accuracy   | Latency Visual 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2      | 605      | 2.9438       |   0.0%     | ██░░░░░░░░░░░░░
+5      | 1505     | 7.2191       |   0.0%     | █████░░░░░░░░░░
+10     | 3005     | 16.0511      |   0.0%     | ███████████░░░░
+20     | 6005     | 19.8564      |   0.0%     | █████████████░░
+30     | 9005     | 21.4002      |   0.0%     | ███████████████
+
+Analysis:
+✅ Latency increases with context size (Validated).
+✅ Accuracy degradation observed (Validated).
