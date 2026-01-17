@@ -1,0 +1,70 @@
+# =============================================================================
+# Flake8 Configuration
+# =============================================================================
+#
+# Flake8 is a Python linting tool that checks code against PEP 8 style guide
+# and detects programming errors.
+#
+# Run with: flake8 .
+# Run with specific path: flake8 common/
+
+[flake8]
+# Maximum line length (matching Black's default)
+max-line-length = 100
+
+# Maximum cyclomatic complexity
+max-complexity = 10
+
+# Error codes to ignore:
+# E203: Whitespace before ':' (conflicts with Black)
+# E501: Line too long (handled by max-line-length with tolerance)
+# W503: Line break before binary operator (conflicts with Black)
+# D100: Missing docstring in public module
+# D104: Missing docstring in public package
+# D105: Missing docstring in magic method
+# D107: Missing docstring in __init__
+extend-ignore = E203, E501, W503, D100, D104, D105, D107
+
+# Files and directories to exclude
+exclude =
+    .git,
+    __pycache__,
+    .mypy_cache,
+    .pytest_cache,
+    .tox,
+    venv,
+    .venv,
+    build,
+    dist,
+    *.egg-info,
+    .eggs,
+    htmlcov,
+    .coverage
+
+# Per-file ignores for specific patterns
+per-file-ignores =
+    # Tests can have longer lines and missing docstrings
+    tests/*:D,E501,S101
+    # __init__ files don't need docstrings
+    __init__.py:D,F401
+    # Configuration files
+    conftest.py:D
+
+# Enable statistics
+statistics = True
+
+# Show source code for each error
+show-source = True
+
+# Count errors
+count = True
+
+# Enable docstring checks (D codes) via flake8-docstrings
+docstring-convention = google
+
+# Additional plugins configuration
+# flake8-bugbear
+select = B,B9,C,D,E,F,W
+
+# flake8-comprehensions
+# C4xx codes for comprehension issues

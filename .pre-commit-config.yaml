@@ -1,0 +1,156 @@
+# Pre-commit hooks configuration
+#
+# This configuration ensures code quality checks run automatically before each commit.
+# Install with: pip install pre-commit && pre-commit install
+#
+# Run manually: pre-commit run --all-files
+
+default_language_version:
+  python: python3.10
+
+repos:
+  # =============================================================================
+  # General Hooks - Basic file hygiene
+  # =============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # Prevent large files from being committed
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+
+      # Check for files that would conflict on case-insensitive filesystems
+      - id: check-case-conflict
+
+      # Check for merge conflict strings
+      - id: check-merge-conflict
+
+      # Ensure files end with a newline
+      - id: end-of-file-fixer
+
+      # Remove trailing whitespace
+      - id: trailing-whitespace
+
+      # Check YAML file syntax
+      - id: check-yaml
+        args: ['--unsafe']
+
+      # Check JSON file syntax
+      - id: check-json
+
+      # Check TOML file syntax
+      - id: check-toml
+
+      # Check for debugger imports
+      - id: debug-statements
+
+      # Ensure executables have shebangs
+      - id: check-executables-have-shebangs
+
+      # Check for private keys
+      - id: detect-private-key
+
+      # Fix mixed line endings
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # =============================================================================
+  # Python Code Formatting - Black
+  # =============================================================================
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        language_version: python3.10
+        args:
+          - '--line-length=100'
+          - '--target-version=py310'
+
+  # =============================================================================
+  # Python Import Sorting - isort
+  # =============================================================================
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args:
+          - '--profile=black'
+          - '--line-length=100'
+
+  # =============================================================================
+  # Python Linting - flake8
+  # =============================================================================
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args:
+          - '--max-line-length=100'
+          - '--max-complexity=10'
+          - '--ignore=E203,E501,W503'
+        additional_dependencies:
+          - flake8-docstrings
+          - flake8-bugbear
+          - flake8-comprehensions
+
+  # =============================================================================
+  # Python Type Checking - mypy
+  # =============================================================================
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        args:
+          - '--ignore-missing-imports'
+          - '--no-strict-optional'
+        additional_dependencies:
+          - types-requests
+          - types-PyYAML
+
+  # =============================================================================
+  # Python Security Linting - bandit
+  # =============================================================================
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.7
+    hooks:
+      - id: bandit
+        args:
+          - '-r'
+          - '--skip=B101,B311'
+        exclude: tests/
+
+  # =============================================================================
+  # Documentation Checks
+  # =============================================================================
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args:
+          - '--convention=google'
+          - '--add-ignore=D100,D104,D105,D107'
+        exclude: tests/
+
+  # =============================================================================
+  # Commit Message Linting
+  # =============================================================================
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.13.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+# =============================================================================
+# CI Configuration
+# =============================================================================
+ci:
+  autofix_prs: true
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autoupdate_branch: 'develop'
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [mypy]  # Skip mypy in CI (run separately)
+  submodules: false
